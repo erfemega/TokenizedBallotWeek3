@@ -1,4 +1,4 @@
-import { ethers } from 'hardhat';
+import { ethers } from 'ethers';
 import * as dotenv from 'dotenv';
 import { MyToken__factory } from '../typechain-types';
 
@@ -8,7 +8,7 @@ const options = {
 };
 
 async function main() {
-  const provider = ethers.getDefaultProvider('goerli', options);
+  const provider = ethers.getDefaultProvider('goerli');
   const wallet = new ethers.Wallet(`${process.env.ACCOUNT_1_SECRET}`);
   const signer = wallet.connect(provider);
   const myTokenFactory = new MyToken__factory(signer);
@@ -19,6 +19,7 @@ async function main() {
   const votesBefore = await myTokenContract.getVotes(`${process.env.ACCOUNT_1}`);
   console.log(`Voting power before delegating: ${votesBefore}`);
 
+  console.log('signer address: ', signer.address);
   const delegateTx = await myTokenContract
     .connect(signer)
     .delegate(`${process.env.ACCOUNT_1}`);

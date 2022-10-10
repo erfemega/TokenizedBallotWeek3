@@ -19,11 +19,11 @@ async function main() {
   const totalSupplyBefore = await myTokenContract.totalSupply();
   console.log(`Total supply before minting: ${totalSupplyBefore}`);
 
-  // const mintTx1 = await myTokenContract.mint(
-  //   `${process.env.ACCOUNT_1}`,
-  //   ethers.utils.parseEther('0.1')
-  // );
-  // await mintTx1.wait();
+  const mintTx1 = await myTokenContract.mint(
+    `${process.env.ACCOUNT_1}`,
+    ethers.utils.parseEther('0.1')
+  );
+  await mintTx1.wait();
 
   // const mintTx2 = await myTokenContract.mint(
   //   `0x8adfAACc8B818C1Fb7868860Ab453a8B46aCB7d3`,
@@ -37,11 +37,11 @@ async function main() {
   // );
   // await mintTx3.wait();
 
-  const mintTx4 = await myTokenContract.mint(
-    `0x70dFf7097d59460444Eaa6fb54B04672FB86A2BB`,
-    ethers.utils.parseEther('0.1')
-  );
-  const receipt = await mintTx4.wait();
+  // const mintTx4 = await myTokenContract.mint(
+  //   `0x70dFf7097d59460444Eaa6fb54B04672FB86A2BB`,
+  //   ethers.utils.parseEther('0.1')
+  // );
+  // const receipt = await mintTx4.wait();
 
   const totalSupplyAfter = await myTokenContract.totalSupply();
   console.log(`Total supply after minting: ${totalSupplyAfter}`);
