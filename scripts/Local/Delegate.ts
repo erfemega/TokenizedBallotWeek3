@@ -1,31 +1,27 @@
 import { ethers } from 'hardhat';
 import * as dotenv from 'dotenv';
-import { MyToken__factory } from '../typechain-types';
 
 dotenv.config();
-const options = {
-  infura: process.env.ALCHEMY_API_KEY
-};
 
 async function main() {
-  const provider = ethers.getDefaultProvider('goerli', options);
-  const wallet = new ethers.Wallet(`${process.env.ACCOUNT_1_SECRET}`);
-  const signer = wallet.connect(provider);
-  const myTokenFactory = new MyToken__factory(signer);
+  const accounts = await ethers.getSigners();
+  const acc1 = accounts[19];
+  const accTest = new ethers.Wallet(`${process.env.ACCOUNT_1_SECRET}`);
+  const myTokenFactory = await ethers.getContractFactory('MyToken');
   const myTokenContract = await myTokenFactory.attach(`${process.env.TOKEN_ADDRESS}`);
   console.log('ATTACHED at: ', myTokenContract.address);
 
-  // const account1 = new ethers.Wallet(`${process.env.ACCOUNT_1_SECRET}`);
+  const account1 = new ethers.Wallet(`${process.env.ACCOUNT_1_SECRET}`);
   const votesBefore = await myTokenContract.getVotes(`${process.env.ACCOUNT_1}`);
   console.log(`Voting power before delegating: ${votesBefore}`);
 
   const delegateTx = await myTokenContract
-    .connect(signer)
+    .connect(acc1)
     .delegate(`${process.env.ACCOUNT_1}`);
   await delegateTx.wait();
 
   const votesAfter = await myTokenContract.getVotes(`${process.env.ACCOUNT_1}`);
-  console.log(`Voting power after delegating: ${votesAfter}`);
+  console.log(`Voting power before delegating: ${votesAfter}`);
 
 }
 
