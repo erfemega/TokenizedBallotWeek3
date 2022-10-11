@@ -9,7 +9,7 @@ const options = {
 
 async function main() {
   const provider = ethers.getDefaultProvider('goerli');
-  const wallet = new ethers.Wallet(`${process.env.ACCOUNT_1_SECRET}`);
+  const wallet = ethers.Wallet.fromMnemonic(process.env.MNEMONIC ?? " ");
   const signer = wallet.connect(provider);
   const myTokenFactory = new MyToken__factory(signer);
   const myTokenContract = await myTokenFactory.attach(`${process.env.TOKEN_ADDRESS}`);
